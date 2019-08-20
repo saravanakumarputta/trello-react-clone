@@ -1,0 +1,13 @@
+.listContainer {
+  min-width: 250px;
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 2px;
+}
+
+.listHeader {
+  padding: 15px 15px 15px 15px;
+  font-weight: 600;
+  color: #2e2e2e;
+  border-bottom: 1px solid #e5e5e5;
+}

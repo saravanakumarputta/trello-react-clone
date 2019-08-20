@@ -122,6 +122,14 @@
   overflow-y: auto;
 }
 
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
 .margin10 {
   margin: 10px;
+}
+
+.pointer {
+  cursor: pointer;
 }

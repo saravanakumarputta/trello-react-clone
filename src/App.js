@@ -13,8 +13,9 @@ import BoardContainer from './containers/boardContainer/BoardContainer';
 import BoardDetailContainer from './containers/boardDetailContainer/BoardDetailContainer';
 
 import boardReducer from './reducers/BoardReducer';
+import listReducer from './reducers/ListReducer';
 
-let store = createStore(combineReducers({ boardReducer }), applyMiddleware(logger, thunk));
+let store = createStore(combineReducers({ boardReducer, listReducer }), applyMiddleware(logger, thunk));
 
 let history = createBrowserHistory();
 

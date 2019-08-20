@@ -68,9 +68,8 @@ class BoardContainer extends React.Component {
         <div className="flexgrow overflow-y-auto margin10">
           <div className="dflex flexrow flexwrap">
             {boards.map(board => {
-              return <Board title={board.title} boardId={board.id} handleClick={this.goToBoardDetailPage} />
+              return <Board title={board.title} key={board.id} boardId={board.id} handleClick={this.goToBoardDetailPage} />
             })}
-
           </div>
         </div>
       </div>
