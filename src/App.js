@@ -25,8 +25,18 @@ function App() {
       <Router history={history}>
         <div className="dflex flexcolumn h100">
           <div className="flexshrink">
-            sdsasad
-      </div>
+            <div className="dflex flexrow alignVertical marginLR20">
+              <div className="flexgrow">
+                <div className="dflex flexrow">
+                  <div className="headerMenu"><Link to="/">Home</Link></div>
+                  <div className="headerMenu"><Link to="/boards">Boards</Link></div>
+                </div>
+              </div>
+              <div className="flexshrink">
+                <img src="https://avatars2.githubusercontent.com/u/19649856?s=460&v=4" className="userImg" alt="user Name" />
+              </div>
+            </div>
+          </div>
           <div className="flexgrow">
             <Switch>
               <Route exact path='/' component={BoardContainer}></Route>

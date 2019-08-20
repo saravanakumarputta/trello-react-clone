@@ -133,3 +133,23 @@
 .pointer {
   cursor: pointer;
 }
+
+.userImg {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+
+.marginLR20 {
+  margin: 0 20px;
+}
+
+.headerMenu a {
+  text-decoration: none;
+  color: #999;
+  margin-right: 20px;
+}
+
+.headerMenu a:hover {
+  color: #000;
+}
