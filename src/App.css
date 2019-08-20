@@ -144,6 +144,10 @@
   margin: 0 20px;
 }
 
+.marginR20 {
+  margin-right: 20px;
+}
+
 .headerMenu a {
   text-decoration: none;
   color: #999;
