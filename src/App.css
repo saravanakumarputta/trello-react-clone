@@ -117,3 +117,11 @@
 .h100 {
   height: 100%;
 }
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.margin10 {
+  margin: 10px;
+}

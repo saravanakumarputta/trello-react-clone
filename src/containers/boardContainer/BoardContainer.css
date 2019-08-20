@@ -1,3 +1,7 @@
 .boardContainer {
   background: #fafafa
 }
+
+.maxwd400 {
+  max-width: 400px;
+}
