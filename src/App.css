@@ -157,3 +157,11 @@
 .headerMenu a:hover {
   color: #000;
 }
+
+.marginTB5 {
+  margin: 5px 0;
+}
+
+.marginR10 {
+  margin-right: 10px;
+}
