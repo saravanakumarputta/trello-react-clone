@@ -16,8 +16,9 @@ class ListContainer extends React.Component {
     this.state = {
       cardTitle: '',
       cardDesc: '',
-      showFreezeLayer: false,
-      editCardId: null
+      showEditFreezeLayer: false,
+      editCardId: null,
+      showCommentFreezeLayer: false
     };
     this.handleDelClick = this.handleDelClick.bind(this);
     this.cardTitleChange = this.cardTitleChange.bind(this);
@@ -77,7 +78,7 @@ class ListContainer extends React.Component {
 
   editHandler(cardId) {
     this.setState({
-      showFreezeLayer: true,
+      showEditFreezeLayer: true,
       cardTitle: this.props.cards[cardId].title,
       cardDesc: this.props.cards[cardId].desc,
       editCardId: cardId
@@ -96,7 +97,7 @@ class ListContainer extends React.Component {
     this.setState({
       cardDesc: '',
       cardTitle: '',
-      showFreezeLayer: false
+      showEditFreezeLayer: false
     })
   }
 
@@ -104,12 +105,15 @@ class ListContainer extends React.Component {
     this.setState({
       cardDesc: '',
       cardTitle: '',
-      showFreezeLayer: false
+      showEditFreezeLayer: false
     })
   }
 
   commentHandler(cardId) {
     console.log(cardId);
+    this.setState({
+      showCommentFreezeLayer: true
+    })
   }
 
   render() {
@@ -137,7 +141,7 @@ class ListContainer extends React.Component {
               editHandler={this.editHandler}
               commentHandler={this.commentHandler} />
           })}
-          {!this.state.showFreezeLayer ?
+          {!this.state.showEditFreezeLayer ?
             <div className="dflex flexcolumn alignVertical">
               <div className="marginTB5">
                 <TextBox placeholderText="Card Name" handleOnKeyUp={this.cardTitleChange} value={this.state.cardTitle} />
@@ -150,7 +154,7 @@ class ListContainer extends React.Component {
               </div>
             </div> : null}
         </div>
-        {this.state.showFreezeLayer ?
+        {this.state.showEditFreezeLayer ?
           < FreezeLayer >
             <div className="dflex flexcolumn alignVertical cardEditForm posrel">
               <div className="posab closeIcon pointer" onClick={this.closeEditForm}>X</div>
@@ -164,6 +168,10 @@ class ListContainer extends React.Component {
                 <Button text="Update" handleClick={this.updateCard} />
               </div>
             </div>
+          </FreezeLayer> : null}
+        {this.state.showCommentFreezeLayer ?
+          <FreezeLayer>
+            <div>Comments</div>
           </FreezeLayer> : null}
       </div>
     )
