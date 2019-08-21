@@ -12,6 +12,13 @@ export default function CardReducer(state = {}, action) {
         delete state[cardId];
       });
       return (state = Object.assign({}, state));
+    case 'ADD_COMMENT_TO_CARD':
+      var cardInfo = state[action.data.cardId];
+      return (state = Object.assign({}, state, {
+        [action.data.cardId]: Object.assign({}, cardInfo, {
+          cardIds: [...cardInfo.commentIds, action.data.commentId],
+        }),
+      }));
     default:
       return state;
   }

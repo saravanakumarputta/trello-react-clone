@@ -8,6 +8,8 @@ import TextBox from '../../components/textBox/TextBox';
 import Button from '../../components/button/Button';
 import FreezeLayer from '../../components/freezeLayer/FreezeLayer';
 
+import CommentsContainer from '../commentContainer/CommentsContainer';
+
 import { addCard, deleteCard, updateCard } from '../../actions/CardActions';
 
 class ListContainer extends React.Component {
@@ -29,6 +31,7 @@ class ListContainer extends React.Component {
     this.closeEditForm = this.closeEditForm.bind(this);
     this.updateCard = this.updateCard.bind(this);
     this.commentHandler = this.commentHandler.bind(this);
+    this.closeCommentForm = this.closeCommentForm.bind(this);
   }
 
   svgStyle = {
@@ -112,7 +115,14 @@ class ListContainer extends React.Component {
   commentHandler(cardId) {
     console.log(cardId);
     this.setState({
-      showCommentFreezeLayer: true
+      showCommentFreezeLayer: true,
+      editCardId: cardId
+    })
+  }
+
+  closeCommentForm() {
+    this.setState({
+      showCommentFreezeLayer: false,
     })
   }
 
@@ -171,7 +181,7 @@ class ListContainer extends React.Component {
           </FreezeLayer> : null}
         {this.state.showCommentFreezeLayer ?
           <FreezeLayer>
-            <div>Comments</div>
+            <CommentsContainer cardId={this.state.editCardId} closeHandler={this.closeCommentForm} />
           </FreezeLayer> : null}
       </div>
     )
