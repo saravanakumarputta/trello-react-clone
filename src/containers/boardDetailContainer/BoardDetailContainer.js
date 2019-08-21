@@ -52,6 +52,12 @@ class BoardDetailContainer extends React.Component {
     });
   }
 
+  componentDidMount() {
+    let routeTo = '/boards';
+    /* eslint-disable no-unused-expressions */
+    this.props.boards[this.props.match.params.id] ? null : this.props.history.push(routeTo);
+  }
+
   render() {
     let { listIds, lists } = this.props;
     return (
@@ -81,7 +87,8 @@ class BoardDetailContainer extends React.Component {
 function mapStateToProps(state, props) {
   return {
     lists: state.listReducer,
-    listIds: (state.boardReducer[props.match.params.id] ? state.boardReducer[props.match.params.id].listIds : [])
+    listIds: (state.boardReducer[props.match.params.id] ? state.boardReducer[props.match.params.id].listIds : []),
+    boards: state.boardReducer
   }
 }
 
