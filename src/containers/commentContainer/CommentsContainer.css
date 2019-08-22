@@ -5,3 +5,17 @@
   height: 400px;
   padding: 20px;
 }
+
+.hrLine {
+  height: 1px;
+  background: #0000003b;
+  margin: 5px 0;
+}
+
+.w20 {
+  width: 20px;
+}
+
+.breakword {
+  overflow-wrap: break-word;
+}

@@ -13,21 +13,33 @@ class BoardContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      boardTitle: ''
+      boardTitle: '',
+      addDisabled: true
     }
     this.goToBoardDetailPage = this.goToBoardDetailPage.bind(this);
     this.boardTitleChange = this.boardTitleChange.bind(this);
     this.addBoard = this.addBoard.bind(this);
+    this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
   }
 
   goToBoardDetailPage(boardId) {
     this.props.history.push(`/boards/${boardId}`);
   }
 
-  boardTitleChange(title) {
+  boardTitleChange(title, keyCode) {
     this.setState({
       boardTitle: title
-    })
+    });
+
+    if (title) {
+      this.setState({
+        addDisabled: false
+      })
+    } else {
+      this.setState({
+        addDisabled: true
+      })
+    }
   }
 
   addBoard() {
@@ -44,10 +56,17 @@ class BoardContainer extends React.Component {
       },
       boardId: id,
     });
-
     this.setState({
-      boardTitle: ''
+      boardTitle: '',
+      addDisabled: true
     })
+  }
+
+  handleOnKeyUp(keyCode) {
+    if (keyCode.toString() === '13') {
+      /* eslint-disable no-unused-expressions */
+      !this.state.addDisabled ? this.addBoard() : null;
+    }
   }
 
   render() {
@@ -58,10 +77,11 @@ class BoardContainer extends React.Component {
         <div className="flexshrink margin10 maxwd400">
           <div className="dflex flexrow flexwrap alignVertical">
             <div className="flexgrow">
-              <TextBox placeholderText="Board Name" handleOnKeyUp={this.boardTitleChange} value={this.state.boardTitle} />
+              <TextBox placeholderText="Board Name" handleOnKeyUp={this.handleOnKeyUp}
+                handleOnChange={this.boardTitleChange} value={this.state.boardTitle} />
             </div>
             <div className="flexshrink">
-              <Button text="Add" handleClick={this.addBoard} />
+              <Button text="Add" handleClick={this.addBoard} disabled={this.state.addDisabled} />
             </div>
           </div>
         </div>
@@ -79,7 +99,7 @@ class BoardContainer extends React.Component {
 
 function mapStateToProps(state, props) {
   return {
-    boards: state.boardReducer
+    boards: state.boards
   }
 }
 

@@ -17,7 +17,7 @@ export function addList(data) {
 
 export function deleteList(data) {
   return (dispatch, getState) => {
-    var cardIds = getState().listReducer[data.listId].cardIds;
+    var cardIds = getState().lists[data.listId].cardIds;
     data.cardIds = cardIds
 
     dispatch({

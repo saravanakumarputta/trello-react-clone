@@ -16,7 +16,7 @@ export default function CardReducer(state = {}, action) {
       var cardInfo = state[action.data.cardId];
       return (state = Object.assign({}, state, {
         [action.data.cardId]: Object.assign({}, cardInfo, {
-          cardIds: [...cardInfo.commentIds, action.data.commentId],
+          commentIds: [...cardInfo.commentIds, action.data.commentId],
         }),
       }));
     default:

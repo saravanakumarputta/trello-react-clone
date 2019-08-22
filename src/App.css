@@ -134,6 +134,10 @@
   cursor: pointer;
 }
 
+.notAllowed {
+  cursor: not-allowed;
+}
+
 .userImg {
   height: 30px;
   width: 30px;

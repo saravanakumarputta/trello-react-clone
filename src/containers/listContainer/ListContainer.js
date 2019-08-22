@@ -20,7 +20,8 @@ class ListContainer extends React.Component {
       cardDesc: '',
       showEditFreezeLayer: false,
       editCardId: null,
-      showCommentFreezeLayer: false
+      showCommentFreezeLayer: false,
+      addDisabled: true
     };
     this.handleDelClick = this.handleDelClick.bind(this);
     this.cardTitleChange = this.cardTitleChange.bind(this);
@@ -46,6 +47,15 @@ class ListContainer extends React.Component {
     this.setState({
       cardTitle: title
     })
+    if (title) {
+      this.setState({
+        addDisabled: false
+      })
+    } else {
+      this.setState({
+        addDisabled: true
+      })
+    }
   }
 
   cardDesChange(title) {
@@ -60,6 +70,7 @@ class ListContainer extends React.Component {
       id,
       title: this.state.cardTitle,
       desc: this.state.cardDesc,
+      commentIds: []
     };
     this.props.addCard({
       card: {
@@ -71,7 +82,8 @@ class ListContainer extends React.Component {
 
     this.setState({
       cardTitle: '',
-      cardDesc: ''
+      cardDesc: '',
+      addDisabled: true
     })
   }
 
@@ -93,14 +105,16 @@ class ListContainer extends React.Component {
       card: {
         id: this.state.editCardId,
         title: this.state.cardTitle,
-        desc: this.state.cardDesc
+        desc: this.state.cardDesc,
+        commentIds: this.props.cards[this.state.editCardId].commentIds
       }
     })
 
     this.setState({
       cardDesc: '',
       cardTitle: '',
-      showEditFreezeLayer: false
+      showEditFreezeLayer: false,
+      addDisabled: true
     })
   }
 
@@ -154,13 +168,13 @@ class ListContainer extends React.Component {
           {!this.state.showEditFreezeLayer ?
             <div className="dflex flexcolumn alignVertical">
               <div className="marginTB5">
-                <TextBox placeholderText="Card Name" handleOnKeyUp={this.cardTitleChange} value={this.state.cardTitle} />
+                <TextBox placeholderText="Card Name" handleOnChange={this.cardTitleChange} value={this.state.cardTitle} />
               </div>
               <div className="marginTB5">
-                <TextBox placeholderText="Card Desc" handleOnKeyUp={this.cardDesChange} value={this.state.cardDesc} />
+                <TextBox placeholderText="Card Desc" handleOnChange={this.cardDesChange} value={this.state.cardDesc} />
               </div>
               <div className="marginTB5">
-                <Button text="Add" handleClick={this.addCard} />
+                <Button text="Add" handleClick={this.addCard} disabled={this.state.addDisabled} />
               </div>
             </div> : null}
         </div>
@@ -169,13 +183,13 @@ class ListContainer extends React.Component {
             <div className="dflex flexcolumn alignVertical cardEditForm posrel">
               <div className="posab closeIcon pointer" onClick={this.closeEditForm}>X</div>
               <div className="marginTB5">
-                <TextBox placeholderText="Card Name" handleOnKeyUp={this.cardTitleChange} value={this.state.cardTitle} />
+                <TextBox placeholderText="Card Name" handleOnChange={this.cardTitleChange} value={this.state.cardTitle} />
               </div>
               <div className="marginTB5">
-                <TextBox placeholderText="Card Desc" handleOnKeyUp={this.cardDesChange} value={this.state.cardDesc} />
+                <TextBox placeholderText="Card Desc" handleOnChange={this.cardDesChange} value={this.state.cardDesc} />
               </div>
               <div className="marginTB5">
-                <Button text="Update" handleClick={this.updateCard} />
+                <Button text="Update" handleClick={this.updateCard} disabled={this.state.addDisabled} />
               </div>
             </div>
           </FreezeLayer> : null}
@@ -190,8 +204,8 @@ class ListContainer extends React.Component {
 
 function mapStateToProps(state, props) {
   return {
-    cards: state.cardReducer || {},
-    cardIds: state.listReducer[props.listId].cardIds || []
+    cards: state.cards || {},
+    cardIds: state.lists[props.listId].cardIds || []
   }
 }
 export default connect(

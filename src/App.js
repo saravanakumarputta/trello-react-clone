@@ -17,7 +17,7 @@ import listReducer from './reducers/ListReducer';
 import cardReducer from './reducers/CardReducer';
 import commentReducer from './reducers/CommentReducer';
 
-let store = createStore(combineReducers({ boardReducer, listReducer, cardReducer, commentReducer }), applyMiddleware(logger, thunk));
+let store = createStore(combineReducers({ boards: boardReducer, lists: listReducer, cards: cardReducer, comments: commentReducer }), applyMiddleware(logger, thunk));
 
 let history = createBrowserHistory();
 

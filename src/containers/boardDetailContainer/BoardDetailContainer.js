@@ -12,7 +12,8 @@ class BoardDetailContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      listTitle: ''
+      listTitle: '',
+      addDisabled: true
     }
     this.addList = this.addList.bind(this);
     this.removeList = this.removeList.bind(this);
@@ -23,6 +24,15 @@ class BoardDetailContainer extends React.Component {
     this.setState({
       listTitle: title
     })
+    if (title) {
+      this.setState({
+        addDisabled: false
+      })
+    } else {
+      this.setState({
+        addDisabled: true
+      })
+    }
   }
 
   addList() {
@@ -41,7 +51,8 @@ class BoardDetailContainer extends React.Component {
     });
 
     this.setState({
-      listTitle: ''
+      listTitle: '',
+      addDisabled: true
     })
   }
 
@@ -65,10 +76,10 @@ class BoardDetailContainer extends React.Component {
         <div className="flexshrink margin10 maxwd400">
           <div className="dflex flexrow flexwrap alignVertical">
             <div className="flexgrow">
-              <TextBox placeholderText="List Name" handleOnKeyUp={this.listTitleChange} value={this.state.listTitle} />
+              <TextBox placeholderText="List Name" handleOnChange={this.listTitleChange} value={this.state.listTitle} />
             </div>
             <div className="flexshrink">
-              <Button text="Add" handleClick={this.addList} />
+              <Button text="Add" handleClick={this.addList} disabled={this.state.addDisabled} />
             </div>
           </div>
         </div>
@@ -86,9 +97,9 @@ class BoardDetailContainer extends React.Component {
 
 function mapStateToProps(state, props) {
   return {
-    lists: state.listReducer,
-    listIds: (state.boardReducer[props.match.params.id] ? state.boardReducer[props.match.params.id].listIds : []),
-    boards: state.boardReducer
+    lists: state.lists,
+    listIds: (state.boards[props.match.params.id] ? state.boards[props.match.params.id].listIds : []),
+    boards: state.boards
   }
 }
 

@@ -4,63 +4,84 @@ import { connect } from 'react-redux';
 import TextBox from '../../components/textBox/TextBox';
 import Button from '../../components/button/Button';
 
+import { addComment } from '../../actions/CommentActions';
+
 import './CommentsContainer.css';
 
 class CommentsContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      commentText: ''
+      commentText: '',
+      addDisabled: true
     }
     this.handleCommentContentChange = this.handleCommentContentChange.bind(this);
+    this.addComment = this.addComment.bind(this);
   }
 
   handleCommentContentChange(content) {
     this.setState({
-      commentText: content
+      commentText: content,
     });
+    if (content) {
+      this.setState({
+        addDisabled: false
+      })
+    }
+    else {
+      this.setState({
+        addDisabled: true
+      })
+    }
+  }
+
+  addComment() {
+    let id = new Date().getTime().toString();
+    let commentData = {
+      id,
+      title: this.state.commentText
+    };
+    this.props.addComment({
+      comment: {
+        [id]: commentData,
+      },
+      cardId: this.props.cardId,
+      commentId: id
+    });
+
+    this.setState({
+      commentText: '',
+      addDisabled: true
+    })
+  }
+
+  idToDateString(id) {
+    return (new Date(parseInt(id)).toDateString());
   }
 
   render() {
     let { commentIds, comments } = this.props;
     return (
-      <div class="dflex flexcolumn commentContainer">
+      <div className="dflex flexcolumn commentContainer">
         <div className="posab closeIcon pointer" onClick={this.props.closeHandler}>X</div>
         <div className="flexgrow overflow-y-auto">
-          {/* {commentIds.map(commentId => {
-            return <div>{comments[commentId]}</div>
-          })} */}
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-          <div className="marginTB5">comments-commentId</div>
-
+          {commentIds.map(commentId => {
+            return (
+              <div className="marginTB5" key={commentId}>
+                <div className="breakword">{comments[commentId].title}</div>
+                <div className="hrLine w20"></div>
+                <div>{this.idToDateString(commentId)}</div>
+                <div className="hrLine"></div>
+              </div>
+            )
+          })}
         </div>
         <div className="flexshrink">
           <div className="marginTB5">
-            <TextBox placeholderText="Comment" handleOnKeyUp={this.handleCommentContentChange} value={this.state.commentText} />
+            <TextBox placeholderText="Comment" handleOnChange={this.handleCommentContentChange} value={this.state.commentText} />
           </div>
           <div className="marginTB5">
-            <Button text="Comment" />
+            <Button text="Comment" disabled={this.state.addDisabled} handleClick={this.addComment} />
           </div>
         </div>
       </div>
@@ -70,9 +91,11 @@ class CommentsContainer extends React.Component {
 
 function mapStateToProps(state, props) {
   return {
-    commentIds: state.cardReducer[props.cardId].commentsIds || [],
-    comments: state.commentReducer || {}
+    commentIds: state.cards[props.cardId].commentIds || [],
+    comments: state.comments || {}
   }
 }
 
-export default connect(mapStateToProps, {})(CommentsContainer);
+export default connect(mapStateToProps, {
+  addComment
+})(CommentsContainer);
