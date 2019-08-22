@@ -18,6 +18,7 @@ class BoardDetailContainer extends React.Component {
     this.addList = this.addList.bind(this);
     this.removeList = this.removeList.bind(this);
     this.listTitleChange = this.listTitleChange.bind(this);
+    this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
   }
 
   listTitleChange(title) {
@@ -69,6 +70,13 @@ class BoardDetailContainer extends React.Component {
     this.props.boards[this.props.match.params.id] ? null : this.props.history.push(routeTo);
   }
 
+  handleOnKeyUp(keyCode) {
+    if (keyCode.toString() === '13') {
+      /* eslint-disable no-unused-expressions */
+      !this.state.addDisabled ? this.addList() : null;
+    }
+  }
+
   render() {
     let { listIds, lists } = this.props;
     return (
@@ -76,7 +84,8 @@ class BoardDetailContainer extends React.Component {
         <div className="flexshrink margin10 maxwd400">
           <div className="dflex flexrow flexwrap alignVertical">
             <div className="flexgrow">
-              <TextBox placeholderText="List Name" handleOnChange={this.listTitleChange} value={this.state.listTitle} />
+              <TextBox placeholderText="List Name" handleOnKeyUp={this.handleOnKeyUp}
+                handleOnChange={this.listTitleChange} value={this.state.listTitle} />
             </div>
             <div className="flexshrink">
               <Button text="Add" handleClick={this.addList} disabled={this.state.addDisabled} />

@@ -17,6 +17,7 @@ class CommentsContainer extends React.Component {
     }
     this.handleCommentContentChange = this.handleCommentContentChange.bind(this);
     this.addComment = this.addComment.bind(this);
+    this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
   }
 
   handleCommentContentChange(content) {
@@ -59,6 +60,13 @@ class CommentsContainer extends React.Component {
     return (new Date(parseInt(id)).toDateString());
   }
 
+  handleOnKeyUp(keyCode) {
+    if (keyCode.toString() === '13') {
+      /* eslint-disable no-unused-expressions */
+      !this.state.addDisabled ? this.addComment() : null;
+    }
+  }
+
   render() {
     let { commentIds, comments } = this.props;
     return (
@@ -78,7 +86,8 @@ class CommentsContainer extends React.Component {
         </div>
         <div className="flexshrink">
           <div className="marginTB5">
-            <TextBox placeholderText="Comment" handleOnChange={this.handleCommentContentChange} value={this.state.commentText} />
+            <TextBox placeholderText="Comment" handleOnKeyUp={this.handleOnKeyUp}
+              handleOnChange={this.handleCommentContentChange} value={this.state.commentText} />
           </div>
           <div className="marginTB5">
             <Button text="Comment" disabled={this.state.addDisabled} handleClick={this.addComment} />

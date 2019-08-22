@@ -127,7 +127,6 @@ class ListContainer extends React.Component {
   }
 
   commentHandler(cardId) {
-    console.log(cardId);
     this.setState({
       showCommentFreezeLayer: true,
       editCardId: cardId
