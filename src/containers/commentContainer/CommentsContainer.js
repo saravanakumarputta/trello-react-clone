@@ -57,7 +57,11 @@ class CommentsContainer extends React.Component {
   }
 
   idToDateString(id) {
-    return (new Date(parseInt(id)).toDateString());
+    let dateTime = '';
+    dateTime += new Date(parseInt(id)).toDateString();
+    dateTime += " ";
+    dateTime += new Date(parseInt(id)).toLocaleTimeString();
+    return dateTime;
   }
 
   handleOnKeyUp(keyCode) {
