@@ -10,7 +10,7 @@ import FreezeLayer from '../../components/freezeLayer/FreezeLayer';
 
 import CommentsContainer from '../commentContainer/CommentsContainer';
 
-import { addCard, deleteCard, updateCard } from '../../actions/CardActions';
+import { addCard, deleteCard, updateCard, moveCard } from '../../actions/CardActions';
 
 class ListContainer extends React.Component {
   constructor(props) {
@@ -33,6 +33,8 @@ class ListContainer extends React.Component {
     this.updateCard = this.updateCard.bind(this);
     this.commentHandler = this.commentHandler.bind(this);
     this.closeCommentForm = this.closeCommentForm.bind(this);
+    this.onDragOver = this.onDragOver.bind(this);
+    this.onDrop = this.onDrop.bind(this);
   }
 
   svgStyle = {
@@ -138,10 +140,21 @@ class ListContainer extends React.Component {
       showCommentFreezeLayer: false,
     })
   }
+  onDragOver(e) {
+    e.preventDefault();
+  }
+  onDrop(e, listId) {
+    let movedCardDetails = JSON.parse(e.dataTransfer.getData("text"));
+
+    this.props.moveCard({
+      listId: listId,
+      cardId: movedCardDetails.cardId,
+      deleteCardListId: movedCardDetails.listId
+    })
+  }
 
   render() {
     let { cardIds, cards } = this.props;
-
     return (
       <div className="dflex flexcolumn h100 listContainer marginR20">
         <div className="flexshrink">
@@ -154,12 +167,13 @@ class ListContainer extends React.Component {
             </div>
           </div>
         </div>
-        <div className="flexgrow overflow-y-auto">
+        <div className="flexgrow overflow-y-auto" onDragOver={this.onDragOver} onDrop={(e) => this.onDrop(e, this.props.listId)}>
           {cardIds.map(cardId => {
             return <Card
               title={cards[cardId].title}
               cardId={cardId}
               key={cardId}
+              listId={this.props.listId}
               deleteHandler={this.deleteCard}
               editHandler={this.editHandler}
               commentHandler={this.commentHandler} />
@@ -211,6 +225,7 @@ export default connect(
   mapStateToProps, {
     addCard,
     deleteCard,
-    updateCard
+    updateCard,
+    moveCard
   }
 )(ListContainer)

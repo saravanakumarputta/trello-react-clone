@@ -24,11 +24,14 @@ export default class Card extends React.Component {
   commentHandler() {
     this.props.commentHandler(this.props.cardId)
   }
+  onDragStart(e, cardId, listId) {
+    e.dataTransfer.setData('text/plain', JSON.stringify({ cardId, listId }));
+  }
 
   render() {
     return (
       <div>
-        <div className="card dflex flexcolumn">
+        <div className="card dflex flexcolumn" draggable onDragStart={(e) => this.onDragStart(e, this.props.cardId, this.props.listId)} >
           <div className='cardTitle'>
             {this.props.title}
           </div>

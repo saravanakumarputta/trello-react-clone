@@ -33,3 +33,10 @@ export function updateCard(data) {
     data: data,
   };
 }
+
+export function moveCard(data) {
+  return {
+    type: 'MOVE_CARD',
+    data: data
+  }
+}
